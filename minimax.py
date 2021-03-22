@@ -14,7 +14,7 @@ def best_move(puzzle, computer_char, player_char):
             - after all possible choices return the best choice <tuple> (row, col) '''
     for choice in possibilities:
         puzzle[choice[0]][choice[1]] = computer_char
-        result = minimax(puzzle, 0, False, computer_char, player_char)
+        result = minimax(puzzle, 0, False, computer_char, player_char, -1500, 1500)
         puzzle[choice[0]][choice[1]] = " "
 
         best = max(result, best)
@@ -35,16 +35,16 @@ def get_pos(puzzle):
 
     return pos_list
 
-def minimax(puzzle, depth, isMax, computer_char, player_char):
+def minimax(puzzle, depth, isMax, computer_char, player_char, alpha, beta):
     ''' this is a recursive function that returns 1, -1, or 0
         1: this move will most likely end in a win
        -1: this move will most likely end in a loss
         0: this move will most likely end in a tie '''
     if TicTacToe.scheck_status(puzzle): #if there is a win
         if isMax:
-            return -1
+            return -10 + depth
         else:
-            return 1
+            return 10 - depth
     if is_full(puzzle): #if there is a tie
         return 0
 
@@ -57,10 +57,14 @@ def minimax(puzzle, depth, isMax, computer_char, player_char):
         and choose the best fit option '''
         for choice in possibilities:
            puzzle[choice[0]][choice[1]] = computer_char
-           result = minimax(puzzle, 0, False, computer_char, player_char)
+           result = minimax(puzzle, depth+1, False, computer_char, player_char, alpha, beta)
            puzzle[choice[0]][choice[1]] = " "
 
            best = max(result, best)
+
+           alpha = max(alpha, result)
+           if alpha >= beta:
+               break
         
         return best
 
@@ -73,11 +77,15 @@ def minimax(puzzle, depth, isMax, computer_char, player_char):
         and choose the best fit option '''
         for choice in possibilities:
            puzzle[choice[0]][choice[1]] = player_char
-           result = minimax(puzzle, 0, True, computer_char, player_char)
+           result = minimax(puzzle, depth+1, True, computer_char, player_char, alpha, beta)
            puzzle[choice[0]][choice[1]] = " "
            result = result
 
            best = min(result, best)
+
+           beta = min(beta, result)
+           if alpha >= beta:
+               break
 
         return best
 
