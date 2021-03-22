@@ -1,4 +1,6 @@
 import minimax
+import time
+import sys
 
 class TicTacToe():
 
@@ -9,25 +11,44 @@ class TicTacToe():
 
     
     def print_game(self):
+        print("\t   [col]")
+        print("           0 1 2")
         for i in range(3):
-            print("[", end = " ")
+            if i == 1:
+                print("   [row]" + str(i) + "[", end = " ")
+            else:
+                print("\t" + str(i) + "[", end = " ")
+
             for j in range(3):
                 print(self.puzzle[i][j] + " ", end="")
 
             print("]")
 
     def player_turn(self, player_char = None):
+        enter_prompt_string = "Enter your choice\nRow (space) Column : "
+        invalid_prompt_string = "\nInvalid selection, try again\n"
+
+
         invalid = True
         if player_char == None:
             player_char = "X"
         
         while invalid:
-            choice = input("Enter your choice\nRow (space) Column : ")
+            for char in enter_prompt_string:
+                sys.stdout.write(char)
+                sys.stdout.flush()
+                time.sleep(.05)
+
+            choice = input()
             choice_list = choice.split()
             row = int(choice_list[0])
             col = int(choice_list[1])
+
             if self.puzzle[row][col] != " ":
-                print("\nInvalid selection, try again")
+                for char in invalid_prompt_string:
+                    sys.stdout.write(char)
+                    sys.stdout.flush()
+                    time.sleep(.05)
             else:
                 self.puzzle[row][col] = player_char
                 invalid = False
