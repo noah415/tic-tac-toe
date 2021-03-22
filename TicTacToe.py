@@ -44,7 +44,7 @@ class TicTacToe():
             row = int(choice_list[0])
             col = int(choice_list[1])
 
-            if self.puzzle[row][col] != " ":
+            if row > 2 or row < 0 or col > 2 or col < 0 or self.puzzle[row][col] != " ":
                 for char in invalid_prompt_string:
                     sys.stdout.write(char)
                     sys.stdout.flush()
