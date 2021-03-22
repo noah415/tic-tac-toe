@@ -3,6 +3,8 @@ import time
 import sys
 
 class TicTacToe():
+    ''' This is a tic tac toe game class. It holds most of the methods 
+    that will manipulate the game board such as: player_turn and computer_turn '''
 
     def __init__(self):
         self.puzzle =  [[" ", " ", " "],
@@ -11,6 +13,7 @@ class TicTacToe():
 
     
     def print_game(self):
+        ''' prints the game board in a pleasing way '''
         print("\t   [col]")
         print("           0 1 2")
         for i in range(3):
@@ -25,6 +28,8 @@ class TicTacToe():
             print("]")
 
     def player_turn(self, player_char = None):
+        ''' Will prompt the player for a row and column to assign the 
+        player's character '''
         enter_prompt_string = "Enter your choice\nRow (space) Column : "
         invalid_prompt_string = "\nInvalid selection, try again\n"
 
@@ -54,9 +59,13 @@ class TicTacToe():
                 invalid = False
 
     def check_status(self):
+        ''' calls on its helper function to return True or False. 
+        Determining whether the game board has a winner '''
         return self.check_row() or self.check_col() or self.check_diag()
 
     def check_row(self):
+        ''' helper function to check status that returns a bool 
+        if any rows have a winner '''
 
         for i in range(3):
 
@@ -66,7 +75,8 @@ class TicTacToe():
         return False
 
     def check_col(self):
-
+        ''' helper function to check_status that returns a bool 
+        determing whether there is a winner in any of the cols '''
         for i in range(3):
 
             if self.puzzle[0][i] == self.puzzle[1][i] == self.puzzle[2][i] and self.puzzle[0][i] != " ":
@@ -75,6 +85,8 @@ class TicTacToe():
         return False
 
     def check_diag(self):
+        ''' helper function to check_status, which returns a bool 
+        determining whether there is a winner in any of the rows '''
         if self.puzzle[0][0] == self.puzzle[1][1] == self.puzzle[2][2] and self.puzzle[0][0] != " ":
             return True
 
@@ -85,6 +97,9 @@ class TicTacToe():
             return False
 
     def computer_turn(self, computer_char, player_char):
+        ''' This method is used when it is currently the computers turn.
+        This method calls a function that uses the minimax algorithm, and 
+        returns the best move determined by it. '''
 
         choice_tup = minimax.best_move(self.puzzle, computer_char, player_char)
 
@@ -92,10 +107,12 @@ class TicTacToe():
 
 
 def scheck_status(puzzle):
+    ''' Statically checks a puzzle array '''
     return scheck_row(puzzle) or scheck_col(puzzle) or scheck_diag(puzzle)
 
 
 def scheck_row(puzzle):
+    ''' helper to scheck_status '''
 
     for i in range(3):
 
@@ -106,6 +123,7 @@ def scheck_row(puzzle):
 
 
 def scheck_col(puzzle):
+    ''' helper to scheck_status '''
 
     for i in range(3):
 
@@ -116,6 +134,7 @@ def scheck_col(puzzle):
 
 
 def scheck_diag(puzzle):
+    ''' helper to scheck_status '''
     if puzzle[0][0] == puzzle[1][1] == puzzle[2][2] and puzzle[0][0] != " ":
         return True
 

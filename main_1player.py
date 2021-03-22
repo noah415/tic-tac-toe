@@ -4,6 +4,9 @@ import time
 import sys
 
 def main():
+    ''' Calls the mother function (play_tic_tac_toe) and gives the user an 
+    option to choose whether to play again or quit '''
+
     output_string = "\nHello!\nThis is a game of Tic Tac Toe\nPlayer competes against Computer AI\nEnjoy the game!\n\n"
     player_again_string = "If you would like to play again press \"y\" then <enter>\nOtherwise press any other key, then <enter> to exit\n" + \
                             "Your choice <enter>: "
@@ -29,6 +32,10 @@ def main():
 
 
 def play_tic_tac_toe():
+    ''' This is the mother function. It holds most of the rules of tic tac toe and 
+    implements player's taking turns. '''
+
+    #these are all of the strings printed to the console
     player_choice_string = "press \"x\" for player \"X\" or \"o\" for player \"O\" then <enter>: "
     invalid_output_string = "Invalid input, try again\n"
     player_move_string = "Player Move: "
@@ -37,11 +44,12 @@ def play_tic_tac_toe():
     player_win_string = "Player win!!\n\n"
     player_lose_string = "Player lost :(\n\n"
 
-
+    #creates a game and initializes a few variables
     game = TicTacToe()
     tie = False
     chosen = False
 
+    #this while loop controls the player's character being used'
     while not chosen:
         for char in player_choice_string:
             sys.stdout.write(char)
@@ -70,6 +78,7 @@ def play_tic_tac_toe():
     game.print_game()
     print("\n\n")
     
+    #this while loop controls the players' turn and game status
     while not game.check_status():
         if player_turn:
             for char in player_move_string:
@@ -99,7 +108,7 @@ def play_tic_tac_toe():
             tie = True
             break
 
-
+    #this if statements determine the end game status
     if tie:
         for char in tie_string:
                 sys.stdout.write(char)
