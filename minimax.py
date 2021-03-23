@@ -1,4 +1,5 @@
 import TicTacToe
+import time
 
 def best_move(puzzle, computer_char, player_char):
     ''' Returns a tuple of (row, col) that is the best choice 
@@ -12,6 +13,7 @@ def best_move(puzzle, computer_char, player_char):
             - call minimax on all possible choices
             - if one choice is ranked better choose it
             - after all possible choices return the best choice <tuple> (row, col) '''
+
     for choice in possibilities:
         puzzle[choice[0]][choice[1]] = computer_char
         result = minimax(puzzle, 0, False, computer_char, player_char, -1500, 1500)
@@ -23,6 +25,8 @@ def best_move(puzzle, computer_char, player_char):
 
         
     return best_choice
+
+
 
 def get_pos(puzzle):
     ''' retrieves all possible choices the computer can make 

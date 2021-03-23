@@ -15,7 +15,7 @@ def main():
     for char in output_string:
         sys.stdout.write(char)
         sys.stdout.flush()
-        time.sleep(.05)
+        time.sleep(.029)
 
     while keep_playing:
         play_tic_tac_toe()
@@ -23,7 +23,7 @@ def main():
         for char in player_again_string:
             sys.stdout.write(char)
             sys.stdout.flush()
-            time.sleep(.05)
+            time.sleep(.029)
 
         keep_playing_input = input()
         if keep_playing_input != "y":
@@ -54,7 +54,7 @@ def play_tic_tac_toe():
         for char in player_choice_string:
             sys.stdout.write(char)
             sys.stdout.flush()
-            time.sleep(.05)
+            time.sleep(.029)
 
 
         player_choice = input()
@@ -72,7 +72,7 @@ def play_tic_tac_toe():
             for char in invalid_output_string:
                 sys.stdout.write(char)
                 sys.stdout.flush()
-                time.sleep(.05)
+                time.sleep(.029)
 
     print("\n")
     game.print_game()
@@ -84,17 +84,16 @@ def play_tic_tac_toe():
             for char in player_move_string:
                 sys.stdout.write(char)
                 sys.stdout.flush()
-                time.sleep(.05)
+                time.sleep(.029)
 
             game.player_turn(player_char)
         else:
             for char in computer_move_string:
                 sys.stdout.write(char)
                 sys.stdout.flush()
-                time.sleep(.05)
+                time.sleep(.029)
 
-            time.sleep(2)
-
+        
             game.computer_turn(computer_char, player_char)
             
         player_turn = not player_turn
@@ -113,17 +112,17 @@ def play_tic_tac_toe():
         for char in tie_string:
                 sys.stdout.write(char)
                 sys.stdout.flush()
-                time.sleep(.05)
+                time.sleep(.029)
     elif (player_turn):
         for char in player_lose_string:
                 sys.stdout.write(char)
                 sys.stdout.flush()
-                time.sleep(.05)
+                time.sleep(.029)
     else:
         for char in player_win_string:
                 sys.stdout.write(char)
                 sys.stdout.flush()
-                time.sleep(.05)
+                time.sleep(.029)
 
 
 if __name__ == "__main__":

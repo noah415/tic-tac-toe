@@ -42,9 +42,17 @@ class TicTacToe():
             for char in enter_prompt_string:
                 sys.stdout.write(char)
                 sys.stdout.flush()
-                time.sleep(.05)
+                time.sleep(.029)
 
             choice = input()
+
+            if len(choice) != 3:
+                for char in invalid_prompt_string:
+                    sys.stdout.write(char)
+                    sys.stdout.flush()
+                    time.sleep(.029)
+                continue
+
             choice_list = choice.split()
             row = int(choice_list[0])
             col = int(choice_list[1])
@@ -53,7 +61,7 @@ class TicTacToe():
                 for char in invalid_prompt_string:
                     sys.stdout.write(char)
                     sys.stdout.flush()
-                    time.sleep(.05)
+                    time.sleep(.029)
             else:
                 self.puzzle[row][col] = player_char
                 invalid = False
