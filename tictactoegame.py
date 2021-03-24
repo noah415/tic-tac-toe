@@ -2,6 +2,7 @@ import TicTacToe
 import minimax
 import curses
 import os
+from draw_controller import *
 from curses import wrapper
 from screen_funcs import *
 
@@ -28,8 +29,13 @@ def draw(screen):
     p1_game = TicTacToe.TicTacToe()
     p2_game = TicTacToe.TicTacToe()
 
+    draw_controller = Draw_Controller(draw, start, one_player, two_player, 
+                                        start_selector_num, board_selector_num, 
+                                        cursor, p1_game, p2_game)
+
     while draw:
-        selector = screen.getch()
+        selector = screen.getch() 
+        draw_controller.selector = selector
         screen.clear()
 
 #environment switcher
