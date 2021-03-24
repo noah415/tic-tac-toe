@@ -1,14 +1,17 @@
+import TicTacToe
+import minimax
 import curses
-from curses import wrapper
 import os
+from curses import wrapper
 from screen_funcs import *
 
 def setup(screen):
-    print_center("Welcome to Tic Tac Toe", screen)
-    screen.addstr(0,0,"Player vs AI")
-    screen.addstr(2,0,"Player vs Player")
-    screen.addstr(4,0,"Quit", curses.A_BLINK)
-    screen.addstr(4,5,"*")
+    print_center("UNBEATABLE TIC TAC TOE", screen, 25, 75)
+    print_center("Choose Option <enter>", screen, 27, 75)
+    screen.addstr(0,25,"PLAYER VS UNBEATABLE AI")
+    screen.addstr(0,57,"PLAYER VS PLAYER")
+    screen.addstr(0,0,"QUIT", curses.A_UNDERLINE)
+    screen.addstr(0,5,"*")
     screen.refresh()
 
 
@@ -17,14 +20,102 @@ def draw(screen):
     start = True
     one_player = False
     two_player = False
+
+
     start_selector_num = 0
+    board_selector_num = 0
+    cursor = [10,32]
+    p1_game = TicTacToe.TicTacToe()
+    p2_game = TicTacToe.TicTacToe()
 
     while draw:
-        selector = screen.getkey()
-        if (start):
-            start_selector_num = draw_start(screen, start_selector_num, selector)
+        selector = screen.getch()
+        screen.clear()
 
-        selector = ''
+#environment switcher
+        if (selector == 10 or selector == 13) and start_selector_num == 0:
+            draw = False
+        elif (selector == 10 or selector == 13) and start_selector_num == 1:
+            start = False
+            one_player = True
+        elif one_player and selector == ord('o'):
+            start = True
+            one_player = False
+            start_selector_num = 1
+
+#this is for the different environment controls
+        if start:
+            print_center("UNBEATABLE TIC TAC TOE", screen, 25, 75)
+            print_center("Choose Option <enter>", screen, 27, 75)
+            if selector == curses.KEY_RIGHT:
+                start_selector_num += 1
+                if start_selector_num == 3:
+                    start_selector_num = 0
+            elif selector == curses.KEY_LEFT:
+                start_selector_num -= 1
+                if start_selector_num == -1:
+                    start_selector_num = 2
+
+
+        elif one_player:
+            start_selector_num = 3
+            draw_board(screen, p1_game.puzzle, 10, 32)
+            screen.addstr(22, 0, "CONTROLS: ARROW KEYS MOVE CURSOR")       
+            screen.addstr(23, 0, "PRESS <enter> TO PLACE CHARACTER")
+            screen.addstr(24, 0, "PRESS \"o\" FOR OPTIONS")
+
+#this controls the cursor on the board
+            if selector == curses.KEY_RIGHT:
+                cursor[1] += 4
+                if cursor[1] > 40:
+                    cursor[1] = 32
+            elif selector == curses.KEY_LEFT:
+                cursor[1] -= 4
+                if cursor[1] < 32:
+                    cursor[1] = 40
+            elif selector == curses.KEY_UP:
+                cursor[0] -= 2
+                if cursor[0] < 10:
+                    cursor[0] = 14
+            elif selector == curses.KEY_DOWN:
+                cursor[0] += 2
+                if cursor[0] > 14:
+                    cursor[0] = 10
+            screen.addstr(cursor[0], cursor[1], "*", curses.A_BLINK)
+
+
+#this is the options control printer
+        if start_selector_num == 0:
+            screen.addstr(0,25,"PLAYER VS UNBEATABLE AI")
+            screen.addstr(0,57,"PLAYER VS PLAYER")
+            screen.addstr(0,0,"QUIT", curses.A_UNDERLINE)
+            screen.addstr(0,5,"*")
+            
+        elif start_selector_num == 1:
+            screen.addstr(0,25,"PLAYER VS UNBEATABLE AI", curses.A_UNDERLINE)
+            screen.addstr(0,49,"*")
+            screen.addstr(0,57,"PLAYER VS PLAYER")
+            screen.addstr(0,0,"QUIT")
+
+        elif start_selector_num == 2:
+            screen.addstr(0,25,"PLAYER VS UNBEATABLE AI")
+            screen.addstr(0,57,"PLAYER VS PLAYER", curses.A_UNDERLINE)
+            screen.addstr(0,74,"*")
+            screen.addstr(0,0,"QUIT")
+
+        elif start_selector_num == 3:
+            if one_player:
+                screen.addstr(0,25,"PLAYER VS UNBEATABLE AI", curses.A_UNDERLINE)
+                screen.addstr(0,57,"PLAYER VS PLAYER")
+                screen.addstr(0,0,"QUIT")
+        
+#this is the board selection control
+        elif board_selector_num == 0:
+            y = 1
+
+        screen.refresh()
+
+        #selector = -1
 
 
 
@@ -39,8 +130,10 @@ def main(screen):
     draw(screen)
         
 
-    
-    curses.napms(3000)
+    screen.clear()
+    print_center("GOODBYE :)", screen, 25, 75)
+    screen.refresh()
+    curses.napms(1500)
     curses.curs_set(1)
     curses.echo()
     curses.nocbreak()
