@@ -8,6 +8,8 @@ def best_move(puzzle, computer_char, player_char):
     best = -1500
     best_choice = ()
     possibilities = get_pos(puzzle)
+    if len(possibilities) == 0:
+        raise IndexError
     
     ''' for all possible choices:
             - call minimax on all possible choices

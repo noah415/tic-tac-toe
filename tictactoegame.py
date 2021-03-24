@@ -11,8 +11,11 @@ def setup(screen):
     print_center("Choose Option <enter>", screen, 27, 75)
     screen.addstr(0,25,"PLAYER VS UNBEATABLE AI")
     screen.addstr(0,57,"PLAYER VS PLAYER")
+    screen.addstr(1,57,"(COMING SOON)")
     screen.addstr(0,0,"QUIT", curses.A_UNDERLINE)
     screen.addstr(0,5,"*")
+    screen.addstr(23, 0, "CONTROLS: ARROW KEYS MOVE CURSOR")       
+    screen.addstr(24, 0, "PRESS <enter> TO SELECT")
     screen.refresh()
 
 def draw(screen):
@@ -22,13 +25,13 @@ def draw(screen):
     two_player = False
 
     start_selector_num = 0
-    board_selector_num = 0
+    board_selector = [0,0]
     cursor = [10,32]
     p1_game = TicTacToe.TicTacToe()
     p2_game = TicTacToe.TicTacToe()
 
     draw_controller = Draw_Controller(draw, start, one_player, two_player, 
-                                        start_selector_num, board_selector_num, 
+                                        start_selector_num, board_selector, 
                                         cursor, p1_game, p2_game)
 
     while draw_controller.draw:
@@ -36,7 +39,7 @@ def draw(screen):
         screen.clear()
 
         #environment switcher
-        environment_switch(draw_controller)
+        environment_switch(draw_controller, screen)
 
         #this is for the different environment controls
         environment_controller(draw_controller, screen)
@@ -46,6 +49,7 @@ def draw(screen):
 
         #this is the board player turn controller
 
+        
         screen.refresh()
 
 def main(screen):

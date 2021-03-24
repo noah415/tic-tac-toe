@@ -6,10 +6,12 @@ class TicTacToe():
     ''' This is a tic tac toe game class. It holds most of the methods 
     that will manipulate the game board such as: player_turn and computer_turn '''
 
-    def __init__(self):
+    def __init__(self, player_char = None, player2_char = None):
         self.puzzle =  [[" ", " ", " "],
                         [" ", " ", " "],
                         [" ", " ", " "]]
+        self.player_char = player_char
+        self.player2_char = player2_char
 
     
     def print_game(self):
@@ -66,6 +68,15 @@ class TicTacToe():
                 self.puzzle[row][col] = player_char
                 invalid = False
 
+    def player_turn_UI(self, choice_list, player_char = None):
+        row = int(choice_list[0])
+        col = int(choice_list[1])
+
+        if row > 2 or row < 0 or col > 2 or col < 0 or self.puzzle[row][col] != " ":
+            raise IndexError
+        else:
+            self.puzzle[row][col] = player_char
+
     def check_status(self):
         ''' calls on its helper function to return True or False. 
         Determining whether the game board has a winner '''
@@ -113,6 +124,20 @@ class TicTacToe():
 
         self.puzzle[choice_tup[0]][choice_tup[1]] = computer_char
 
+    def is_full(self):
+        ''' Returns True if the puzzle is full, False if not '''
+        list_pos = minimax.get_pos(self.puzzle)
+        if len(list_pos) == 0:
+            return True
+
+        return False
+
+    def game_end(self):
+        if self.check_status() or self.is_full():
+            return True
+
+        return False
+
 
 def scheck_status(puzzle):
     ''' Statically checks a puzzle array '''
@@ -152,7 +177,7 @@ def scheck_diag(puzzle):
     else:
         return False
         
-        
+
             
 
 
