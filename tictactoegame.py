@@ -1,30 +1,15 @@
 import curses
 from curses import wrapper
 import os
+from screen_funcs import *
 
 def setup(screen):
-    print_center("welcome to tic tac toe", screen)
+    print_center("Welcome to Tic Tac Toe", screen)
     screen.addstr(0,0,"Player vs AI")
-    screen.addstr(0,0,"Player vs Player")
-    screen.addstr(0,0,"Quit")
-
-
-def print_center(message, screen):
-    # Calculate center row
-    middle_row = int(25 / 2)
-
-    # Calculate center column, and then adjust starting position based
-    # on the length of the message
-    half_length_of_message = int(len(message) / 2)
-    middle_column = int(75 / 2)
-    x_position = middle_column - half_length_of_message
-
-    # Draw the text
-    screen.addstr(middle_row, x_position, message)
+    screen.addstr(2,0,"Player vs Player")
+    screen.addstr(4,0,"Quit", curses.A_BLINK)
+    screen.addstr(4,5,"*")
     screen.refresh()
-
-def draw_board(screen):
-    pass
 
 
 def draw(screen):
@@ -32,18 +17,21 @@ def draw(screen):
     start = True
     one_player = False
     two_player = False
+    start_selector_num = 0
 
     while draw:
+        selector = screen.getkey()
         if (start):
-            print_center("welcome to tic tac toe", screen)
+            start_selector_num = draw_start(screen, start_selector_num, selector)
 
-    
+        selector = ''
+
 
 
 def main(screen):
     os.system("printf '\e[8;25;75t'")
     curses.curs_set(0)
-    curses.echo()
+    curses.cbreak()
 
     
     setup(screen)
@@ -54,9 +42,7 @@ def main(screen):
     
     curses.napms(3000)
     curses.curs_set(1)
-    curses.endwin()
-
-
-
+    curses.echo()
+    curses.nocbreak()
 if __name__ == "__main__":
     wrapper(main)
