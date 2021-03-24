@@ -8,6 +8,9 @@ def draw_board(screen, board, y, x):
     screen.addstr(y+3, x-2,"-------------")
     screen.addstr(y+4, x,board[2][0] + " | " + board[2][1] + " | " + board[2][2])
 
+def environment_switch(draw_controller):
+    y = 1
+
 def print_center(message, screen, height, width):
     # Calculate center row
     middle_row = int(height / 2)

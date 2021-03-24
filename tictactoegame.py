@@ -33,31 +33,30 @@ def draw(screen):
                                         start_selector_num, board_selector_num, 
                                         cursor, p1_game, p2_game)
 
-    while draw:
-        selector = screen.getch() 
-        draw_controller.selector = selector
+    while draw_controller.draw:
+        draw_controller.selector = screen.getch() 
         screen.clear()
 
 #environment switcher
-        if (selector == 10 or selector == 13) and start_selector_num == 0:
-            draw = False
-        elif (selector == 10 or selector == 13) and start_selector_num == 1:
-            start = False
+        if (draw_controller.selector == 10 or draw_controller.selector == 13) and start_selector_num == 0:
+            draw_controller.draw = False
+        elif (draw_controller.selector == 10 or draw_controller.selector == 13) and start_selector_num == 1:
+            draw_controller.start = False
             one_player = True
-        elif one_player and selector == ord('o'):
-            start = True
+        elif one_player and draw_controller.selector == ord('o'):
+            draw_controller.start = True
             one_player = False
             start_selector_num = 1
 
 #this is for the different environment controls
-        if start:
+        if draw_controller.start:
             print_center("UNBEATABLE TIC TAC TOE", screen, 25, 75)
             print_center("Choose Option <enter>", screen, 27, 75)
-            if selector == curses.KEY_RIGHT:
+            if draw_controller.selector == curses.KEY_RIGHT:
                 start_selector_num += 1
                 if start_selector_num == 3:
                     start_selector_num = 0
-            elif selector == curses.KEY_LEFT:
+            elif draw_controller.selector == curses.KEY_LEFT:
                 start_selector_num -= 1
                 if start_selector_num == -1:
                     start_selector_num = 2
@@ -71,19 +70,19 @@ def draw(screen):
             screen.addstr(24, 0, "PRESS \"o\" FOR OPTIONS")
 
 #this controls the cursor on the board
-            if selector == curses.KEY_RIGHT:
+            if draw_controller.selector == curses.KEY_RIGHT:
                 cursor[1] += 4
                 if cursor[1] > 40:
                     cursor[1] = 32
-            elif selector == curses.KEY_LEFT:
+            elif draw_controller.selector == curses.KEY_LEFT:
                 cursor[1] -= 4
                 if cursor[1] < 32:
                     cursor[1] = 40
-            elif selector == curses.KEY_UP:
+            elif draw_controller.selector == curses.KEY_UP:
                 cursor[0] -= 2
                 if cursor[0] < 10:
                     cursor[0] = 14
-            elif selector == curses.KEY_DOWN:
+            elif draw_controller.selector == curses.KEY_DOWN:
                 cursor[0] += 2
                 if cursor[0] > 14:
                     cursor[0] = 10
