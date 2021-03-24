@@ -16,24 +16,29 @@ def setup(screen):
 
 
 def draw(screen):
-    draw = True
-    start = True
-    one_player = False
-    two_player = False
+    draw = True#0
+    start = True#1
+    one_player = False#2
+    two_player = False#3
 
+    start_selector_num = 0#4
+    board_selector_num = 0#5
+    cursor = [10,32]#6
+    p1_game = TicTacToe.TicTacToe()#7
+    p2_game = TicTacToe.TicTacToe()#8
 
-    start_selector_num = 0
-    board_selector_num = 0
-    cursor = [10,32]
-    p1_game = TicTacToe.TicTacToe()
-    p2_game = TicTacToe.TicTacToe()
+    draw_controller = [draw, start, one_player, two_player, start_selector_num, board_selector_num,
+                        cursor, p1_game, p2_game]
 
-    while draw:
-        selector = screen.getch()
+    while draw_controller[0]:
+        selector = screen.getch()#9
+        draw_controller = [draw, start, one_player, two_player, start_selector_num, board_selector_num,
+                        cursor, p1_game, p2_game, selector]
         screen.clear()
 
 #environment switcher
-        if (selector == 10 or selector == 13) and start_selector_num == 0:
+        draw_controller = environment_switcher(draw_controller)
+        ''' if (selector == 10 or selector == 13) and start_selector_num == 0:
             draw = False
         elif (selector == 10 or selector == 13) and start_selector_num == 1:
             start = False
@@ -41,76 +46,76 @@ def draw(screen):
         elif one_player and selector == ord('o'):
             start = True
             one_player = False
-            start_selector_num = 1
+            start_selector_num = 1 '''
 
 #this is for the different environment controls
-        if start:
+        if draw_controller[1]:
             print_center("UNBEATABLE TIC TAC TOE", screen, 25, 75)
             print_center("Choose Option <enter>", screen, 27, 75)
             if selector == curses.KEY_RIGHT:
-                start_selector_num += 1
-                if start_selector_num == 3:
-                    start_selector_num = 0
+                draw_controller[4] += 1
+                if draw_controller[4] == 3:
+                    draw_controller[4] = 0
             elif selector == curses.KEY_LEFT:
-                start_selector_num -= 1
-                if start_selector_num == -1:
-                    start_selector_num = 2
+                draw_controller[4] -= 1
+                if draw_controller[4] == -1:
+                    draw_controller[4] = 2
 
 
-        elif one_player:
-            start_selector_num = 3
-            draw_board(screen, p1_game.puzzle, 10, 32)
+        elif draw_controller[2]:
+            draw_controller[4] = 3
+            draw_board(screen, draw_controller[7].puzzle, 10, 32)
             screen.addstr(22, 0, "CONTROLS: ARROW KEYS MOVE CURSOR")       
             screen.addstr(23, 0, "PRESS <enter> TO PLACE CHARACTER")
             screen.addstr(24, 0, "PRESS \"o\" FOR OPTIONS")
 
 #this controls the cursor on the board
             if selector == curses.KEY_RIGHT:
-                cursor[1] += 4
-                if cursor[1] > 40:
-                    cursor[1] = 32
+                draw_controller[6][1] += 4
+                if draw_controller[6][1] > 40:
+                    draw_controller[6][1] = 32
             elif selector == curses.KEY_LEFT:
-                cursor[1] -= 4
-                if cursor[1] < 32:
-                    cursor[1] = 40
+                draw_controller[6][1] -= 4
+                if draw_controller[6][1] < 32:
+                    draw_controller[6][1] = 40
             elif selector == curses.KEY_UP:
-                cursor[0] -= 2
-                if cursor[0] < 10:
-                    cursor[0] = 14
+                draw_controller[6][0] -= 2
+                if draw_controller[6][0] < 10:
+                    draw_controller[6][0] = 14
             elif selector == curses.KEY_DOWN:
-                cursor[0] += 2
-                if cursor[0] > 14:
-                    cursor[0] = 10
-            screen.addstr(cursor[0], cursor[1], "*", curses.A_BLINK)
+                draw_controller[6][0] += 2
+                if draw_controller[6][0] > 14:
+                    draw_controller[6][0] = 10
+            screen.addstr(draw_controller[6][0], draw_controller[6][1], "*", curses.A_BLINK)
 
 
 #this is the options control printer
-        if start_selector_num == 0:
+        if draw_controller[4] == 0:
             screen.addstr(0,25,"PLAYER VS UNBEATABLE AI")
             screen.addstr(0,57,"PLAYER VS PLAYER")
             screen.addstr(0,0,"QUIT", curses.A_UNDERLINE)
             screen.addstr(0,5,"*")
             
-        elif start_selector_num == 1:
+        elif draw_controller[4] == 1:
             screen.addstr(0,25,"PLAYER VS UNBEATABLE AI", curses.A_UNDERLINE)
             screen.addstr(0,49,"*")
             screen.addstr(0,57,"PLAYER VS PLAYER")
             screen.addstr(0,0,"QUIT")
 
-        elif start_selector_num == 2:
+        elif draw_controller[4] == 2:
             screen.addstr(0,25,"PLAYER VS UNBEATABLE AI")
             screen.addstr(0,57,"PLAYER VS PLAYER", curses.A_UNDERLINE)
             screen.addstr(0,74,"*")
             screen.addstr(0,0,"QUIT")
 
-        elif start_selector_num == 3:
-            if one_player:
+        elif draw_controller[4] == 3:
+            if draw_controller[2]:
                 screen.addstr(0,25,"PLAYER VS UNBEATABLE AI", curses.A_UNDERLINE)
                 screen.addstr(0,57,"PLAYER VS PLAYER")
                 screen.addstr(0,0,"QUIT")
         
 #this is the board selection control
-        elif board_selector_num == 0:
+        elif draw_controller[5] == 0:
             y = 1
 
         screen.refresh()
