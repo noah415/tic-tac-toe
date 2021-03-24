@@ -19,6 +19,48 @@ def environment_switch(draw_controller):
         draw_controller.one_player = False
         draw_controller.start_selector_num = 1
 
+def environment_controller(draw_controller, screen):
+    if draw_controller.start:
+        print_center("UNBEATABLE TIC TAC TOE", screen, 25, 75)
+        print_center("Choose Option <enter>", screen, 27, 75)
+        if draw_controller.selector == curses.KEY_RIGHT:
+            draw_controller.start_selector_num += 1
+            if draw_controller.start_selector_num == 3:
+                draw_controller.start_selector_num = 0
+        elif draw_controller.selector == curses.KEY_LEFT:
+            draw_controller.start_selector_num -= 1
+            if draw_controller.start_selector_num == -1:
+                draw_controller.start_selector_num = 2
+
+
+    elif draw_controller.one_player:
+        draw_controller.start_selector_num = 3
+        draw_board(screen, draw_controller.p1_game.puzzle, 10, 32)
+        screen.addstr(22, 0, "CONTROLS: ARROW KEYS MOVE CURSOR")       
+        screen.addstr(23, 0, "PRESS <enter> TO PLACE CHARACTER")
+        screen.addstr(24, 0, "PRESS \"o\" FOR OPTIONS")
+        board_cursor_controller(draw_controller, screen)
+
+def board_cursor_controller(draw_controller, screen):
+    if draw_controller.selector == curses.KEY_RIGHT:
+        draw_controller.cursor[1] += 4
+        if draw_controller.cursor[1] > 40:
+            draw_controller.cursor[1] = 32
+    elif draw_controller.selector == curses.KEY_LEFT:
+        draw_controller.cursor[1] -= 4
+        if draw_controller.cursor[1] < 32:
+            draw_controller.cursor[1] = 40
+    elif draw_controller.selector == curses.KEY_UP:
+        draw_controller.cursor[0] -= 2
+        if draw_controller.cursor[0] < 10:
+            draw_controller.cursor[0] = 14
+    elif draw_controller.selector == curses.KEY_DOWN:
+        draw_controller.cursor[0] += 2
+        if draw_controller.cursor[0] > 14:
+            draw_controller.cursor[0] = 10
+    screen.addstr(draw_controller.cursor[0], draw_controller.cursor[1], "*", curses.A_BLINK)
+
+
 def print_center(message, screen, height, width):
     # Calculate center row
     middle_row = int(height / 2)

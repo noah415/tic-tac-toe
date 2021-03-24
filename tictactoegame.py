@@ -39,17 +39,9 @@ def draw(screen):
 
 #environment switcher
         environment_switch(draw_controller)
-        ''' if (draw_controller.selector == 10 or draw_controller.selector == 13) and draw_controller.start_selector_num == 0:
-            draw_controller.draw = False
-        elif (draw_controller.selector == 10 or draw_controller.selector == 13) and draw_controller.start_selector_num == 1:
-            draw_controller.start = False
-            draw_controller.one_player = True
-        elif draw_controller.one_player and draw_controller.selector == ord('o'):
-            draw_controller.start = True
-            draw_controller.one_player = False
-            draw_controller.start_selector_num = 1 '''
 
 #this is for the different environment controls
+        #environment_controller(draw_controller, screen)
         if draw_controller.start:
             print_center("UNBEATABLE TIC TAC TOE", screen, 25, 75)
             print_center("Choose Option <enter>", screen, 27, 75)
@@ -71,7 +63,8 @@ def draw(screen):
             screen.addstr(24, 0, "PRESS \"o\" FOR OPTIONS")
 
 #this controls the cursor on the board
-            if draw_controller.selector == curses.KEY_RIGHT:
+            board_cursor_controller(draw_controller, screen)
+            ''' if draw_controller.selector == curses.KEY_RIGHT:
                 draw_controller.cursor[1] += 4
                 if draw_controller.cursor[1] > 40:
                     draw_controller.cursor[1] = 32
@@ -87,7 +80,7 @@ def draw(screen):
                 draw_controller.cursor[0] += 2
                 if draw_controller.cursor[0] > 14:
                     draw_controller.cursor[0] = 10
-            screen.addstr(draw_controller.cursor[0], draw_controller.cursor[1], "*", curses.A_BLINK)
+            screen.addstr(draw_controller.cursor[0], draw_controller.cursor[1], "*", curses.A_BLINK) '''
 
 
 #this is the options control printer
