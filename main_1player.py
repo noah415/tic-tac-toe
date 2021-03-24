@@ -2,10 +2,14 @@ from TicTacToe import *
 import minimax
 import time
 import sys
+import os
 
 def main():
     ''' Calls the mother function (play_tic_tac_toe) and gives the user an 
     option to choose whether to play again or quit '''
+
+    os.system("printf '\e[8;50;100t'")
+    os.system("clear")
 
     output_string = "\nHello!\nThis is a game of Tic Tac Toe\nPlayer competes against Computer AI\nEnjoy the game!\n\n"
     player_again_string = "If you would like to play again press \"y\" then <enter>\nOtherwise press any other key, then <enter> to exit\n" + \
