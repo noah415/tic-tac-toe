@@ -9,7 +9,15 @@ def draw_board(screen, board, y, x):
     screen.addstr(y+4, x,board[2][0] + " | " + board[2][1] + " | " + board[2][2])
 
 def environment_switch(draw_controller):
-    y = 1
+    if (draw_controller.selector == 10 or draw_controller.selector == 13) and draw_controller.start_selector_num == 0:
+        draw_controller.draw = False
+    elif (draw_controller.selector == 10 or draw_controller.selector == 13) and draw_controller.start_selector_num == 1:
+        draw_controller.start = False
+        draw_controller.one_player = True
+    elif draw_controller.one_player and draw_controller.selector == ord('o'):
+        draw_controller.start = True
+        draw_controller.one_player = False
+        draw_controller.start_selector_num = 1
 
 def print_center(message, screen, height, width):
     # Calculate center row
