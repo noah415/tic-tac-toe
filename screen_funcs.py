@@ -59,6 +59,8 @@ def environment_controller(draw_controller, screen):
 
     elif draw_controller.one_player:
         draw_controller.start_selector_num = 3
+        screen.addstr(8,0,"PLAYER PLAYING AS: "+ draw_controller.p1_game.player_char)
+        screen.addstr(8,59,"AI PLAYING AS: "+ draw_controller.p1_game.computer_char)
 
         if draw_controller.p1_game.game_end() and not draw_controller.p1_game.is_full():
             draw_controller.start = False

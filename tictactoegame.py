@@ -57,8 +57,11 @@ def main(screen):
     os.system("printf '\e[8;25;75t'")
     curses.curs_set(0)
     curses.cbreak()
+    print_center("LOADING ...", screen, 25, 75)
+    screen.refresh()
+    curses.napms(500)
 
-    
+    screen.clear()
     setup(screen)
 
     draw(screen)
