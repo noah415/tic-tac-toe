@@ -69,6 +69,9 @@ def environment_controller(draw_controller, screen):
 
         if not draw_controller.p1_game.game_end() and draw_controller.computer_turn:
             draw_controller.p1_game.computer_turn(draw_controller.p1_game.computer_char,draw_controller.p1_game.player_char)
+
+            
+
             draw_controller.computer_turn = False
             draw_controller.player_turn = True
 
@@ -85,8 +88,9 @@ def environment_controller(draw_controller, screen):
             draw_controller.start = False
             draw_controller.one_player = False
             #draw_controller.start_selector_num = 1
-            draw_board(screen, draw_controller.p1_game.puzzle, 10, 32)
-            draw_controller.p1_game = TicTacToe.TicTacToe()
+
+            old_puzzle = draw_controller.p1_game.puzzle
+
             if not draw_controller.player_won:
                 screen.clear()
                 if draw_controller.p1_game.is_full():
@@ -106,6 +110,8 @@ def environment_controller(draw_controller, screen):
                     screen.addstr(22, 0, "CONTROLS: ARROW KEYS MOVE CURSOR")       
                     screen.addstr(23, 0, "PRESS <enter> TO PLACE CHARACTER")
                     print_center("PRESS \"o\" FOR OPTIONS TO RESTART OR QUIT", screen, 27, 75)
+            draw_board(screen, old_puzzle, 5, 32)
+            draw_controller.p1_game = TicTacToe.TicTacToe()
 
     #this is where they were
 
