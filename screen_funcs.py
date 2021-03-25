@@ -60,6 +60,13 @@ def environment_controller(draw_controller, screen):
     elif draw_controller.one_player:
         draw_controller.start_selector_num = 3
 
+        if draw_controller.p1_game.game_end() and not draw_controller.p1_game.is_full():
+            draw_controller.start = False
+            draw_controller.one_player = False
+            draw_controller.player_won = True
+            draw_controller.tie = False
+            draw_controller.computer_won = False
+
         if not draw_controller.p1_game.game_end() and draw_controller.computer_turn:
             draw_controller.p1_game.computer_turn(draw_controller.p1_game.computer_char,draw_controller.p1_game.player_char)
             draw_controller.computer_turn = False
@@ -73,11 +80,34 @@ def environment_controller(draw_controller, screen):
         board_cursor_controller(draw_controller, screen)
 
         if draw_controller.p1_game.game_end():
-            draw_controller.start = True
+            draw_controller.player_turn = False
+            draw_controller.computer_turn = False
+            draw_controller.start = False
             draw_controller.one_player = False
-            draw_controller.start_selector_num = 1
+            #draw_controller.start_selector_num = 1
             draw_board(screen, draw_controller.p1_game.puzzle, 10, 32)
             draw_controller.p1_game = TicTacToe.TicTacToe()
+            if not draw_controller.player_won:
+                screen.clear()
+                if draw_controller.p1_game.is_full():
+                    draw_controller.computer_won = False
+                    draw_controller.player_won = False
+                    draw_controller.tie = True
+                    print_center("THERE WAS A TIE", screen, 25, 75)
+                    screen.addstr(22, 0, "CONTROLS: ARROW KEYS MOVE CURSOR")       
+                    screen.addstr(23, 0, "PRESS <enter> TO PLACE CHARACTER")
+                    print_center("PRESS \"o\" FOR OPTIONS TO RESTART OR QUIT", screen, 27, 75)
+
+                else:
+                    draw_controller.tie = False
+                    draw_controller.player_won = False
+                    draw_controller.computer_won = True
+                    print_center("THE COMPUTER BEAT YOU. IS THAT ALL YOU GOT?", screen, 25, 75)
+                    screen.addstr(22, 0, "CONTROLS: ARROW KEYS MOVE CURSOR")       
+                    screen.addstr(23, 0, "PRESS <enter> TO PLACE CHARACTER")
+                    print_center("PRESS \"o\" FOR OPTIONS TO RESTART OR QUIT", screen, 27, 75)
+
+    #this is where they were
 
         
 
@@ -88,8 +118,9 @@ def environment_switch(draw_controller, screen):
     elif (draw_controller.selector == 10 or draw_controller.selector == 13) and draw_controller.start_selector_num == 1:
         draw_controller.start = False
         draw_controller.one_player = True
-        screen.addstr(10,30,"PRESS X TO PLAY X")
-        screen.addstr(11,30,"PRESS O TO PLAY O")
+        print_center("PRESS X TO PLAY X", screen, 25, 75)
+        print_center("OR", screen, 27, 75)
+        print_center("PRESS O TO PLAY O", screen, 29, 75)
         lilChar = screen.getch()
         if lilChar == ord('x'):
             draw_controller.p1_game.player_char = 'X'
@@ -102,8 +133,6 @@ def environment_switch(draw_controller, screen):
             draw_controller.player_turn = False
             draw_controller.computer_turn = True
         screen.clear()
-        screen.refresh()
-        #draw_controller.player_turn = True
 
     elif draw_controller.one_player and draw_controller.selector == ord('o'):
         draw_controller.start = True
@@ -115,6 +144,15 @@ def environment_switch(draw_controller, screen):
             draw_controller.p1_game.player_turn_UI(draw_controller.board_selector,draw_controller.p1_game.player_char)
             draw_controller.player_turn = False
             draw_controller.computer_turn = True
+
+    elif (draw_controller.computer_won or draw_controller.tie) and draw_controller.selector == ord('o'):
+        draw_controller.tie = False
+        draw_controller.computer_won = False
+        draw_controller.start = True
+        draw_controller.start_selector_num = 0
+
+    elif (draw_controller.computer_won or draw_controller.tie) and draw_controller.selector != ord('o'):
+        draw_controller.draw = False
         #screen.addstr()
 
 def option_switch(draw_controller, screen):

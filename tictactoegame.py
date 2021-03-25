@@ -49,7 +49,8 @@ def draw(screen):
 
         #this is the board player turn controller
 
-        
+
+
         screen.refresh()
 
 def main(screen):
